@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+ 
+struct triangle  // структура "треугольник"
+{
+    //длины сторон
+    double a;
+    double b;
+    double c;
+};
+ 
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+    triangle sides[3];
+    int i;
+    double p[3], s[3];
+
+    //считывание сторон 3-x треугольников
+ 
+    for (i = 0; i < 3; i++)
+    {
+        std::cout << "Side a = ";
+        std::cin >> sides[i].a;
+        std::cout << endl;
+ 
+        std::cout << "Side b = ";
+        std::cin >> sides[i].b;
+        std::cout << endl;
+ 
+        std::cout << "Side c = ";
+        std::cin >> sides[i].c;
+        std::cout << endl;
+ 
+        if (sides[i].a >= sides[i].b + sides[i].c || sides[i].b >= sides[i].a + sides[i].c || sides[i].c >= sides[i].b + sides[i].a) //проверяем, существует ли треугольник с данными сторонами
+        {
+            std::cout << "Triangle don't exist" << "\n";
+            std::cout << "\n";
+            i-- ;
+            continue;  // программа будет принимать значения длин сторон до тех пор, пока не получит информацию обо всех трех треугольниках
+        }
+        
+        p[i] = (sides[i].a + sides[i].b + sides[i].c) / 2;  // полупериметр 
+        s[i] = sqrt(p[i] * (p[i] - sides[i].a) * (p[i] - sides[i].b) * (p[i] - sides[i].c));  // площадь треугольника
+        std::cout << "Площадь треугольника " << i+1 << "=" << s[i] << endl;
+        std::cout << "\n";
+    }
+    if (s[0] > s[1] && s[0] > s[2])  // нахождение большей площади
+    {
+        std::cout << "Площадь треугольника №1 наибольшая" << endl;
+    }
+    if (s[1] > s[0] && s[1] > s[2])
+    {
+        std::cout << "Площадь треугольника №2 наибольшая" << endl;
+    }
+    if (s[2] > s[1] && s[2] > s[0])
+    {
+        std::cout << "Площадь треугольника №3 наибольшая" << endl;
+    }
+    return 0;
+}
