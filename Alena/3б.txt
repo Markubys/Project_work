@@ -1,0 +1,103 @@
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+float average(int * mas_x, int size) // функция для нахождения среднего значения последовательности
+{
+	float average;
+	int sum = 0;
+	for (int count = 0; count < size; count++)
+		sum += mas_x[count];
+	average = sum / size;  //в с++ только целочисленное деление!
+	if (sum % size != 0)
+	{
+		average = average + 0.5;   // если среднее значение - это нецелое число, достаточно прибавить дробную часть, чтобы сравнивать с целыми числами (Пример: 5 < 5.5 < 6)
+	}
+	return average;
+}
+
+int simple(int x)  // функция, определяющая простые числа
+{
+	int i = 2;
+	if (x == 1 || x == 2) {
+		return 1;
+	}
+	for (i; i < x; i++) {
+		if (x % i == 0) {
+			return 0;
+		}
+		else {
+			if (x - i == 1 && x % i != 0) {
+				return 1;
+			}
+		}
+	}
+}
+
+int new_mas(int * mas_x, int size)   // функция для удаления из массивов элементов, не являющихся простыми числами
+{
+	for (int i = 0; i < size; i++) {
+		if (!simple(mas_x[i])) {  
+			mas_x[i] = 0;
+		}
+	}
+
+	for (int h = 0; h < size; h++) {
+		if (mas_x[h] != 0) {
+			cout << mas_x[h] << " ";
+		}
+
+	}
+	cout << "\n";
+	return 0;
+}
+
+
+int mas_y(int * mas_x, int size) //функция для создания массива y, в который входят все числа из массива х, превышающие значение среднего арифметического
+{
+	int new_size = 0, count = 0;
+	int * mas_y;
+	for (int i = 0; i < size; i++) {
+		if (mas_x[i] > average(mas_x, size)) {
+			new_size += 1;
+		}
+	}
+	mas_y = new int[new_size];
+	while (count < new_size) {
+		for (int i = 0; i < size; i++) {
+			if (mas_x[i] > average(mas_x, size)) {
+				mas_y[count] = mas_x[i];
+				count++;
+			}
+		}
+	}
+	cout << "Массив Y: ";
+	for (int k = 0; k < new_size; k++) {
+		cout << mas_y[k] << " ";
+	}
+	cout << "\n";
+
+	cout << "Новый массив Y: ";
+	new_mas(mas_y, new_size);
+
+	return 0;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	int size, i;
+	int * mas_x;
+	cout << "Size = "; cin >> size; //вводим размер последовательности, которую собираемся вводить
+	mas_x = new int[size];
+	for (i = 0; i < size; i++) {
+		cin >> mas_x[i];
+	}
+
+	cout << "Среднее арифметическое = " << average(mas_x, size) << "\n";
+	mas_y (mas_x, size);
+	cout << "Новый массив X: ";
+	new_mas(mas_x, size);
+	return 0;
+}
